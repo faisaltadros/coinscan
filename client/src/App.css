@@ -1,0 +1,25 @@
+.ui.header:first-child {
+    margin-top: 14px;
+}
+
+.ui.header>.image:not(.icon), .ui.header>img {
+    margin-top: 0;
+}
+
+.ui.table:last-child {
+    margin-bottom: 50px;
+}
+
+.table {
+    table-layout: fixed;
+}
+
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.time .value .more {
+    width: 5px !important;
+}
