@@ -2,46 +2,11 @@ import React, { Component } from "react";
 import Transaction from "./Transaction";
 
 class Transactions extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      txs: this.props.txs,
-      shownTxs: [],
-      count: 0
-    };
-  }
-
-  componentDidMount() {
-    this.sortArray();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.txs !== this.props.txs) {
-      this.sortArray();
-      this.renderData();
-    }
-  }
-
-  sortArray() {
-    const sortedTxs = this.props.txs.sort((a, b) => {
-      return b.time - a.time;
-    });
-
-    // console.log(sortedTxs);
-
-    this.setState({
-      shownTxs: sortedTxs
-    });
-  }
-
+  // gets txs from props, sorts by timestamp and renders it to display
   renderData() {
-    const sortedTxs = this.props.txs.sort((a, b) => {
-      return b.time - a.time;
-    });
-
+    const shownTxs = this.props.txs;
     const myData = []
-      .concat(sortedTxs)
+      .concat(shownTxs)
       .sort((a, b) => {
         return b.time - a.time;
       })

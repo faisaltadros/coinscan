@@ -12,17 +12,20 @@ export class Transaction extends Component {
     };
   }
 
+  // opens modal for more details
   showModal = () => {
     this.setState({ show: true });
   };
 
+  // closes modal
   hideModal = () => {
     this.setState({ show: false });
   };
 
+  // converts unix timestamp to date and time
   timeConverter(UNIX_timestamp) {
-    var a = new Date(UNIX_timestamp * 1000);
-    var months = [
+    let a = new Date(UNIX_timestamp * 1000);
+    const months = [
       "Jan",
       "Feb",
       "Mar",
@@ -36,29 +39,22 @@ export class Transaction extends Component {
       "Nov",
       "Dec"
     ];
-    var year = a.getFullYear();
-    var month = months[a.getMonth()];
-    var date = a.getDate();
-    var hour = a.getHours();
+    let year = a.getFullYear();
+    let month = months[a.getMonth()];
+    let date = a.getDate();
+    let hour = a.getHours();
     hour.toString().length === 1 ? (hour = "0" + hour) : (hour = hour);
-    var min = a.getMinutes();
+    let min = a.getMinutes();
     min.toString().length === 1 ? (min = "0" + min) : (min = min);
-    var sec = a.getSeconds();
+    let sec = a.getSeconds();
     sec.toString().length === 1 ? (sec = "0" + sec) : (sec = sec);
-    var time =
+    let time =
       date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
     return time;
   }
 
   render() {
-    const {
-      confirmations,
-      script_asm,
-      script_hex,
-      time,
-      txid,
-      value
-    } = this.state.tx;
+    const { confirmations, time, txid, value } = this.state.tx;
 
     if (this.state.tx) {
       return (
@@ -74,6 +70,7 @@ export class Transaction extends Component {
                 <div className="card-body">
                   <h2 className="ui header">
                     <img
+                      alt="litecoin"
                       src="https://cdn.worldvectorlogo.com/logos/litecoin.svg"
                       className="ui circular image"
                     />

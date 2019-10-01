@@ -20,14 +20,14 @@ class App extends React.Component {
 
     this.dateFilter = this.dateFilter.bind(this);
     this.addAddress = this.addAddress.bind(this);
-    // this.fetchTxs = this.fetchTxs.bind(this);
-    // this.fetchNewTxs = this.fetchNewTxs.bind(this);
   }
 
   componentDidMount() {
+    // fetches txs from addresses found in state.urls on first load
     this.addAddress();
   }
 
+  // fetchTxs will fetch multiple addresses at the same time using Promise.all
   fetchTxs() {
     const urls = this.state.urls;
 
@@ -35,7 +35,7 @@ class App extends React.Component {
       fetch(url).then(response => response.json())
     );
 
-    var allTxs = [];
+    let allTxs = [];
     Promise.all(allRequests)
       .then(data => {
         data.map(wallet => {
@@ -44,6 +44,7 @@ class App extends React.Component {
           } else if (wallet.data.txs) {
             allTxs = allTxs.concat(wallet.data.txs);
           }
+          return null;
         });
         this.setState({
           shownTxs: allTxs,
@@ -56,9 +57,10 @@ class App extends React.Component {
       });
   }
 
+  // fetchNewTxs will fetch one single address txs and add to the existing txs in state
   fetchNewTxs() {
     const newUrl = this.state.urls[this.state.urls.length - 1];
-    var allTxs = this.state.txs;
+    let allTxs = this.state.txs;
     fetch(newUrl)
       .then(res => res.json())
       .then(wallet => {
@@ -74,21 +76,25 @@ class App extends React.Component {
       });
   }
 
+  // removes all txs from the state so that new txs can be concatenated with the old txs and sorted
   refresh() {
     this.setState({
       loading: false
     });
   }
 
+  // dateFilter takes in a range of time using a unix timestamp and returns which
+  // txs where found in that range
   dateFilter(time) {
-    var result = this.state.txs.filter(d => {
-      var now = Math.round(new Date().getTime() / 1000);
-      var range = now - time;
+    const result = this.state.txs.filter(d => {
+      const now = Math.round(new Date().getTime() / 1000);
+      const range = now - time;
       return d.time > range;
     });
     this.setState({ shownTxs: result });
   }
 
+  // runs when a new address is added and new txs are fetched and added to the txs in state
   addAddress() {
     const urls = [
       "http://localhost:3001/wallets/mgR4uAAekM6ZSecEV8YA9ZYHQvMdqRWdnP",
@@ -124,12 +130,14 @@ class App extends React.Component {
       if (url && i !== urls.length && i !== urls.length - 1) {
         return <li key={i}>{url.substring(url.lastIndexOf("/") + 1)}</li>;
       }
+      return null;
     });
     return (
       <div className="ui container ">
         <div className="ui block header">
           <h2 className="ui header">
             <img
+              alt="litcoin"
               src="https://cdn.worldvectorlogo.com/logos/litecoin.svg"
               className="ui circular image"
             />{" "}
