@@ -103,7 +103,6 @@ class App extends React.Component {
       "http://localhost:3001/wallets/mi4BnbVd1TFVrbpaGbimduQirwWBNwKSny",
       "http://localhost:3001/wallets/mgALHtP9CNDbtbYXRdzjj7Lu5D8xBnZxr8"
     ];
-
     const addressIndex = this.state.urls.length;
     const oldUrls = this.state.urls;
     const joined = oldUrls.concat(urls[addressIndex]);
@@ -114,7 +113,6 @@ class App extends React.Component {
         urls: joined,
         addressCount: addressIndex + 1
       });
-
       if (this.state.addressCount <= 2) {
         this.fetchTxs();
       } else {
@@ -125,7 +123,6 @@ class App extends React.Component {
 
   render() {
     const urls = this.state.urls;
-
     const renderAddresses = urls.map((url, i) => {
       if (url && i !== urls.length && i !== urls.length - 1) {
         return <li key={i}>{url.substring(url.lastIndexOf("/") + 1)}</li>;
